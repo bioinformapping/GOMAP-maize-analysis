@@ -1,0 +1,8 @@
+Step            	Nodes 	B73v4  	Mo17   	PH207  	W22
+seqsim          	1     	2h51m  	2h45m  	2h40m  	3h41m
+domain          	10    	5h16m  	4h40   	4h49m  	4h51m
+mixmeth-blast   	10    	15h55m 	14h54m 	14h49m 	15h51m
+fanngo          	1     	2h24m  	4h20m  	3h16m  	4h49m
+mixmeth-preproc 	1     	4h30m  	4h26m  	3h16m  	4h48m
+mixmeth         	1     	2h40m  	2h25m  	2h20m  	2h11m
+aggregate       	1     	0h10m  	0h10m  	0h10m  	0h10m
