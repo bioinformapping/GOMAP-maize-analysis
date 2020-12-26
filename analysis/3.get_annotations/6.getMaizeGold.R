@@ -7,6 +7,7 @@ source("analysis/R/oboTools.R")
 go_obo <- check_obo_data("data/go/go.obo")
 
 ## Clean the input dataset downloaded from maizeGDB
+
 maizev4CrossGenes <-fread("data/maize/gene_model_xref_v4.txt")
 selCols <- c("v4_gene_model","v3_gene_model","W22","PH207","Mo17b")
 filtCrossGenes <- maizev4CrossGenes[,selCols,with=F]

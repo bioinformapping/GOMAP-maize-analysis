@@ -1,0 +1,46 @@
+predicted:
+    B73v3-GOMAP: 
+        file: maize.B73.AGPv3.aggregate.gaf
+        inbred: B73v3
+        source: GOMAP
+    B73v4-GOMAP: 
+        file: maize.B73.AGPv4.aggregate.gaf
+        inbred: B73v4
+        source: GOMAP
+    B73v4-Community: 
+        file: maize.B73.AGPv4.gramene.gaf
+        inbred: B73v4
+        source: Community
+    Mo17-GOMAP: 
+        file: maize.Mo17.AGPv1.aggregate.gaf
+        inbred: Mo17
+        source: GOMAP
+    PH207-GOMAP: 
+        file: maize.PH207.UIUC_UMN-1.0.aggregate.gaf
+        inbred: PH207
+        source: GOMAP
+    PH207-Community: 
+        file: maize.PH207.UIUC_UMN-1.0.community.gaf
+        inbred: PH207
+        source: Community
+    W22-GOMAP: 
+        file: maize.W22.AGPv2.aggregate.gaf
+        inbred: W22
+        source: GOMAP
+
+curated:
+    B73v3: 
+        file: B73v3.curated.gaf
+        inbred: B73v3
+    B73v4: 
+        file: B73v4.curated.gaf
+        inbred: B73v4
+    Mo17-GOMAP: 
+        file: Mo17.curated.gaf
+        inbred: Mo17
+    PH207: 
+        file: PH207.curated.gaf
+        inbred: PH207
+    W22: 
+        file: W22.curated.gaf
+        inbred: W22

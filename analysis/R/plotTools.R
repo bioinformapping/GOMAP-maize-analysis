@@ -38,7 +38,10 @@ aspect_lbl = function(aspect){
     return(tmp_lbl[aspect])
 }
 
-theme_plot <- theme(strip.text = element_text(colour = "#000000"),strip.background = element_rect(fill = "#FFFFFF"),axis.text.x = element_text(angle = 0,hjust = 0.5,vjust = 0.5),plot.title = element_text(hjust = 0.5),panel.spacing = unit(0,"line"))
+theme_plot <- theme(strip.text = element_text(colour = "#000000"),
+                    strip.background = element_rect(fill = "#FFFFFF"),
+                    axis.text.x = element_text(angle = 0,hjust = 0.5,vjust = 0.5),
+                    plot.title = element_text(hjust = 0.5))
 
 marginCommon = margin(0, 0.2, 0, 0.2, "cm")
 panelSpaceCom = unit(0.1,"cm")

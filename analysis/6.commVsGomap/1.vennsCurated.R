@@ -12,7 +12,7 @@ futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
 
 ## Loading the GO OBO data
 go_obo <- check_obo_data("data/go/go.obo")
-config <- read_yaml("config.yml")
+config <- read_yaml("config.yaml")
 config
 
 ## Loading the predicted data list
@@ -38,24 +38,27 @@ curateData_list <- lapply(config$curated[grep("B73v4|PH207",config$curated)],fun
   input_gaf_data
 })
 
+# Filtering predicted data for the gene ids that have annotations in curated data
 curateData_dt = rbindlist(curateData_list)
 curateFilter = unique(curateData_dt[,.(db_object_id,aspect)])
 predDataFilt = merge(predData_dt,curateFilter)
 
+# Combine the predicted and curated datasets
 allAnnotData = rbind(predDataFilt,curateData_dt)
 
+# Obtain all the terms till the root term for each GO term in the predicted and curated annotations
 allAnnots = unique(allAnnotData[,.(term_accession)])
 annotTermsAncest = allAnnots[,list(full_term_accession=go_obo$ancestors[[term_accession]]),by=term_accession]
-
 system.time({
   all_term_accession <- unique(merge(allAnnotData,annotTermsAncest,allow.cartesian = T))
   all_term_accession
 })
 
-curatedFilt = unique(all_term_accession[source=="Curated",.(db_object_symbol,aspect,full_term_accession)])
-curatedFilt
 
-all_term_data = merge.data.table(all_term_accession,curatedFilt,by=c("db_object_symbol","aspect","full_term_accession"))
+# Filter based on whether term is present in the curated data or not. We only 
+# care about the terms that are in the curated annotations and no other terms 
+curatedFilt = unique(all_term_accession[source=="Curated",.(db_object_symbol,aspect,full_term_accession,inbred)])
+all_term_data = merge.data.table(all_term_accession,curatedFilt,by=c("db_object_symbol","aspect","full_term_accession","inbred"))
 all_term_data[,annotPair:=paste(db_object_symbol,full_term_accession,sep="-")]
 
 
@@ -63,7 +66,9 @@ all_term_data[,annotPair:=paste(db_object_symbol,full_term_accession,sep="-")]
 fillScale = brewer_pal(type = "qual",palette = 4)
 
 ## Splitting the data into hierarchical categories
-vennData = split(all_term_data[,.(inbred,aspect,source,db_object_symbol)],by=c("inbred","aspect","source"),flatten=FALSE,keep.by = F,sorted = T)
+vennData = split(all_term_accession[,.(inbred,aspect,source,db_object_symbol)],by=c("inbred","aspect","source"),flatten=FALSE,keep.by = F,sorted = T)
+
+NROW(setdiff(vennData$B73v4$C$GOMAP,c(vennData$B73v4$C$Community)))
 ## Generating the Venn data for B73 and PH207
 #fillScale = alpha(c("red","yellow"),0.3)
 plotCols=c("#66c2a5","#fc8d62","#8da0cb")
@@ -81,7 +86,7 @@ ph207Genes = lapply(vennData$PH207,function(aspectVennData){
 })
 
 ## Plotting the numbers for
-plotMultiVenn(plotFile = "paper/figures/curateGeneVenn.png",
+plotMultiVenn(plotFile = "figures/curateGeneVenn.png",
               b73Venns = b73v4Genes,
               ph207Venns = ph207Genes,
               legendCols = plotCols,
