@@ -110,7 +110,8 @@ plot(p)
 ggsave("figures/gomapVsCommVsCurate.png",plot = p,width = 6,height = 7.5,units = "in",dpi = 300)
 
 ?muted
-countTable = ddcast.data.table(plotData,inbred+annotClass~aspect+variable,value.var = "count",fill = 0)#[order()]
-countTable[inbred=="B73v4"]
+countTable = dcast.data.table(plotData,inbred+annotClass~aspect+variable,value.var = "count",fill = 0)#[order()]
+cat(colSums(countTable[inbred=="B73v4",-1:-2,with=F]),sep=" & ")
+cat(colSums(countTable[inbred!="B73v4",-1:-2,with=F]),sep=" & ")
 
 kable(countTable,format = "latex",format.args = list(big.mark=","))

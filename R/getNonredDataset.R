@@ -1,6 +1,6 @@
-source("analysis/R/gafTools.R")
-source("analysis/R/genUtils.R")
-source("analysis/R/oboTools.R")
+source("R/gafTools.R")
+source("R/genUtils.R")
+source("R/oboTools.R")
 
 remove_redundancy = function(infile,outfile){
     

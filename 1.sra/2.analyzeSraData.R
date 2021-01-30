@@ -6,7 +6,7 @@ library("ggplot2")
 #library("scales")
 library("kableExtra")
 
-sraData <- rbindlist(lapply(dir("analysis/1.sra/data/",".tsv$",full.names = T),fread))
+sraData = fread("data/sra/sra_query.tsv")
 sraData[,year:=format(as.Date(sraData$pub_date),format = "%Y")]
 sraSummary <- sraData[!is.na(year) & year < 2020,list(studies=length(unique(study)),runs=.N),by=year][order(year)]
 sraSummary
@@ -23,10 +23,9 @@ sraPlot <-  ggplot(sraSummaryMelt,mapping = aes(x=year,y=value,fill=year),color=
             labs(fill="Year",x="Year",y="Count") + guides(fill=F)
 sraPlot
 
-ggsave("paper/figures/sraDatasets.png",width = 5.5,height = 3)
+ggsave("figures/sraDatasets.png",width = 5.5,height = 3)
 
 colSums(sraSummary[,.(studies,runs)])
 colnames(sraSummary) <- c("Year","Number of Studies","Num of Datasets")
-kable(sraSummary,format = "markdown")
-
+cat(kable(sraSummary,format = "markdown",caption = "SRA Plant Datasets"),file = "tables/sra_data.md",sep="\n")
 

@@ -1,7 +1,7 @@
 suppressMessages({
-  source("analysis/R/gafTools.R")
-  source("analysis/R/oboTools.R")
-  source("analysis/R/getNonredDataset.R")
+  source("R/oboTools.R")
+  source("R/gafTools.R")
+  source("R/getNonredDataset.R")
   library("data.table")
 })
 

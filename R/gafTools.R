@@ -138,11 +138,11 @@ goterm2aspect <- function(term_accessions,go_obo){
 
 goterm2alt_id <- function(term_accessions,go_obo){
   out <- lapply(term_accessions,function(term){
-    out1 <- unlist(go_obo$alt_conv[[term]])
+    out1 <- unlist(go_obo$alt_conv[term])
     if(length(out1)==0){
       term
     }else{
-      out1
+      out1[1]
     }
   })
   return(unlist(out))

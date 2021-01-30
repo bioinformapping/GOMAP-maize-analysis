@@ -3,7 +3,6 @@ library("ggplot2")
 library("naturalsort")
 
 walltime <- fread("data/walltime/walltime.csv")
-#walltime
 wall_melt <- melt.data.table(walltime,"Step",c("Mo17","W22","PH207","B73v4"))
 
 plotData <- wall_melt[,c("h","m"):=tstrsplit(wall_melt$value,"[hm]")]
@@ -35,5 +34,5 @@ p <-  ggplot(plotData,aes(x=variable,ymin=ymin/60,ymax=ymax/60,color=Step)) +
       coord_flip() +  
       labs(x="Maize Genomes",y="Time (Hours)",fill="GOMAP Step")
 p
-ggsave("paper/figures/walltime.png",width = 8,height = 4,units = "in",dpi = 300)
+ggsave("figures/walltime.png",width = 8,height = 4,units = "in",dpi = 300)
 

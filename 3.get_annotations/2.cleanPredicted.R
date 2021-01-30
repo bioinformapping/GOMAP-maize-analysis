@@ -1,13 +1,15 @@
-source("analysis/R/gafTools.R")
-source("analysis/R/oboTools.R")
+source("R/gafTools.R")
+source("R/oboTools.R")
 library("data.table")
 library("yaml")
 
-config = read_yaml("config.yml")
+config = read_yaml("config.yaml")
 go_obo <- check_obo_data("data/go/go.obo")
 
 predData_list <- lapply(config$predicted,function(x){
-  inputGaf = file.path("data","predicted",x)
+  print(x)
+  inputGaf = file.path("data","predicted",x$file)
+  print(inputGaf)
   input_gaf_data <- read_gaf(inputGaf)
   input_gaf_data[,qualifier:=0]
   input_gaf_data[,with:=0]
@@ -19,7 +21,7 @@ predData_list <- lapply(config$predicted,function(x){
   output_gaf_data[,date:=as.numeric(today)]
   output_gaf_data[term_accession %in% names(go_obo$alt_conv),
                   term_accession:=go_obo$alt_conv[term_accession]]
-  outputGaf = file.path("data","clean",x)
+  outputGaf = file.path("data","clean",x$file)
   write_gaf(output_gaf_data,outputGaf)
   NULL
 })
