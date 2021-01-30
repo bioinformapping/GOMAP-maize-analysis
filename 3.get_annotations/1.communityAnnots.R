@@ -41,8 +41,7 @@ print("Processing Gramene B73v4")
 b73v4_gramene <- fread("data/community/zmays_refgeb_v4_gramene_go.txt")
 b73v4_gramene_gaf <- unique(b73v4_gramene[grep("Zm00001d",`Gene stable ID`),c("Gene stable ID","GO term accession","GO term evidence code")])
 colnames(b73v4_gramene_gaf) <- c("db_object_symbol","go_id","evidence_code")
-
-b73v4_gramene_gaf=b73v4_gramene_gaf[,list(term_accession=goterm2alt_id(go_id,go_obo)),by=list(db_object_symbol,evidence_code)]
+b73v4_gramene_gaf=b73v4_gramene_gaf[go_id!="",list(term_accession=goterm2alt_id(go_id,go_obo)),by=list(db_object_symbol,evidence_code)]
 b73v4_gramene_gaf[,aspect:=goterm2aspect(term_accession,go_obo)]
 b73v4_gramene_gaf[,db_object_id:=db_object_symbol]
 b73v4_gramene_gaf[,db:="Gramene"]

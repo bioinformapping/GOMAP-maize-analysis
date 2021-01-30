@@ -7,7 +7,6 @@ config = read_yaml("config.yaml")
 go_obo <- check_obo_data("data/go/go.obo")
 
 predData_list <- lapply(config$predicted,function(x){
-  print(x)
   inputGaf = file.path("data","predicted",x$file)
   print(inputGaf)
   input_gaf_data <- read_gaf(inputGaf)

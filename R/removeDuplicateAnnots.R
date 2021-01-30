@@ -1,5 +1,5 @@
-source("analysis/R/gafTools.R")
-source("analysis/R/oboTools.R")
+source("R/gafTools.R")
+source("R/oboTools.R")
 
 get_uniq_annots <- function(in_gaf,out_gaf){
     data = read_gaf(in_gaf)

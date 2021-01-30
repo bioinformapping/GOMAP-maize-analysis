@@ -18,6 +18,5 @@ faSeq_dt[,seqLen:=as.numeric(seqLen)]
 
 faSeqSummary <- faSeq_dt[,list(numGenes=.N,totAALen=sum(seqLen),minAALen=min(seqLen),meanAAL=round(mean(seqLen),2),medAAL=median(seqLen),maxAALen=max(seqLen),smallGeneProp=round(sum(seqLen<50)/.N*100,2)),by=inbred]
 setorderv(faSeqSummary,"inbred")
-print(faSeqSummary)
-cat(kable(faSeqSummary,"markdown",row.names = F,format.args = list(big.mark=",")),file = "paper/tables/maizeFaSeqSummary.md",sep = "\n")
+cat(kable(faSeqSummary,"markdown",row.names = F,format.args = list(big.mark=","),caption = "Fasta Sequence Summary"),file = "tables/README.md",sep = "\n",append=TRUE)
 fwrite(faSeq_dt,file = "data/fasta/filt_fasta/faSeqData.tsv",sep = "\t",row.names = F)

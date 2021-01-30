@@ -1,6 +1,6 @@
-source("analysis/R/plotTools.R")
-source("analysis/R/gafTools.R")
-source("analysis/R/oboTools.R")
+source("R/plotTools.R")
+source("R/gafTools.R")
+source("R/oboTools.R")
 library("data.table")
 library("naturalsort")
 library("kableExtra")
@@ -14,7 +14,7 @@ totalGenes <- allMaizeSeqsSummary$total
 names(totalGenes) <- allMaizeSeqsSummary$inbred
 
 go_obo <- check_obo_data("data/go/go.obo")
-config <- read_yaml("config.yml")
+config <- read_yaml("config.yaml")
 
 predData_list <- lapply(config$predicted,function(x){
   inputGaf <- file.path("data/clean",x$file)
@@ -31,8 +31,10 @@ predData_dt[,list(count=.N),by=list(inbred,source)]
 system.time({
   specList = get_specificity(unique(predData_dt$term_accession),go_obo)
   names(specList) <- unique(predData_dt$term_accession)
-  specList[predData_dt$term_accession]
+  print(length(unlist(specList[predData_dt$term_accession])))
+  NROW(predData_dt)
   predData_dt[,specificity:=unlist(specList[term_accession])]
+  
 })
 
 
@@ -73,8 +75,7 @@ curatedDataSummary[,annotsPerGene:=round(numAnnots/annotated,2)]
 gafDataSummary <- merge.data.table(predDataSummary,curatedDataSummary,by=c("inbred","totGenes"),suffixes = c(".pred",".curate"))
 colnames(gafDataSummary)
 summaryCols <- c("inbred","source","totGenes",naturalsort(colnames(gafDataSummary)[grep("coverage|annots|meanSpec",colnames(gafDataSummary))]))
-summaryCols
-cat(kable(gafDataSummary[,summaryCols,with=F],"markdown",row.names = F,format.args = list(big.mark=",")),file = "paper/tables/maizeAnalMetrics.md",sep = "\n")
+cat(kable(gafDataSummary[,summaryCols,with=F],"markdown",row.names = F,format.args = list(big.mark=","),caption="Geneal Analysis Metrics"),file = "tables/README.md",sep = "\n",append=TRUE)
 
 sourceColor = c("black","black")
 fillScale = scale_fill_brewer(type="qual",palette = 4)
@@ -134,5 +135,5 @@ specHistPlot <- ggplot(specHistPlotData, aes(x=inbred)) +
 out =  lapply(list(covPlot,numAnnotPlot,specHistPlot),ggplotGrob)
 g = do.call(rbind,out)
 #plotGrob <- arrangeGrob(g,legends,heights = c(6,1),ncol = 1,padding = unit(2,"line"))
-ggsave("paper/figures/analMetrics.png",plot = g,width=7.5,height=6,units = "in")
+ggsave("figures/analMetrics.png",plot = g,width=7.5,height=6,units = "in")
 

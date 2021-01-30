@@ -3,7 +3,6 @@
 import re, os, sys, logging, argparse
 from Bio import SeqIO
 from Bio.Seq import Seq
-from Bio.Alphabet import IUPAC
 from mimetypes import guess_type
 from functools import partial
 import gzip
@@ -51,7 +50,7 @@ def get_longest_transcript(input_file,output,gene_start,search_pattern="\.[0-9]+
     for key in seqs.keys():
         curr_seq = seqs[key]
         curr_seq.id = key +" "+curr_seq.id
-        curr_seq.seq = Seq(re.sub(r"[^A-Za-z]","",str(curr_seq.seq)),IUPAC.protein)
+        curr_seq.seq = Seq(re.sub(r"[^A-Za-z]","",str(curr_seq.seq)))
         out_seqs.append(curr_seq)
 
     #Write the output file as fasta
