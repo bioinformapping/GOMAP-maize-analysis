@@ -1,8 +1,8 @@
 library("data.table")
-source("analysis/R/gafTools.R")
-source("analysis/R/removeDuplicateAnnots.R")
-source("analysis/R/getNonredDataset.R")
-source("analysis/R/oboTools.R")
+source("R/gafTools.R")
+source("R/removeDuplicateAnnots.R")
+source("R/getNonredDataset.R")
+source("R/oboTools.R")
 
 go_obo <- check_obo_data("data/go/go.obo")
 
