@@ -1,5 +1,5 @@
-source("analysis/R/plotHelper.R")
-source("analysis/R/plotTools.R")
+source("R/plotHelper.R")
+source("R/plotTools.R")
 library("data.table")
 library("ggplot2")
 
@@ -27,5 +27,5 @@ ggsave("figures/sraDatasets.png",width = 5.5,height = 3)
 
 colSums(sraSummary[,.(studies,runs)])
 colnames(sraSummary) <- c("Year","Number of Studies","Num of Datasets")
-cat(kable(sraSummary,format = "markdown",caption = "SRA Plant Datasets"),file = "tables/sra_data.md",sep="\n")
+cat(kable(sraSummary,format = "markdown",caption = "SRA Plant Datasets"),file = "tables/README.md",sep="\n", append=TRUE)
 
