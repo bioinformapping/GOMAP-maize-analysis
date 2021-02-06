@@ -1,0 +1,93 @@
+digraph overview{
+	rankdir=TB
+	node[shape=box,fontsize=32,margin=0.3];
+	overlap=false
+	splines=ortho
+
+	input[label="Input\nSequences",shape=folder]
+	subgraph seqsim{
+		node[style=filled,fillcolor="#b3de69"]
+    	arab[label="Arabidopsis"];
+    	arab1[label="TAIR\nannotations",shape=folder]
+		uniprot[label="UniProt-Plants"];
+		uniprot1[label="UniProt\nannotations",shape=folder]
+	}
+	input -> arab;
+	arab -> arab1;
+	input -> uniprot;
+    uniprot -> uniprot1;
+	subgraph domain{
+		node[style=filled,fillcolor="#fdb462"]
+		iprs[label="InterProScan5"]
+		iprs1[label="IPRS\nAnnotations",shape=folder]
+	}
+	input -> iprs
+	iprs -> iprs1
+
+	subgraph "mixmeth_blast"{
+		node[style=filled,fillcolor="#80b1d3"]
+		mmb[label="BLAST\n against \n UniProt"]
+	}
+
+	input -> mmb
+
+	subgraph "mixmeth_preproc"{
+		node[style=filled,fillcolor="#bebada"]
+		mmh[label="Run\nHMMER"]
+	}
+	input -> mmh
+
+	subgraph mixmeth{
+		node[style=filled,fillcolor="#f2e6d9"]
+		argot[label="Argot2.5"]
+		argot1[label="Argot\nAnnotations",shape=folder]
+		pannzer[label="PANNZER"]
+		pannzer1[label="PANNZER\nAnnotations",shape=folder]
+	}
+
+	mmh -> argot
+	mmb -> argot
+	mmb -> pannzer
+
+	subgraph fanngo{
+		node[style=filled fillcolor="#fb8072"]
+		fanngo[label="FANN-GO"]
+		fanngo1[label="FANN-GO\nAnnotations",shape=folder]
+	}
+
+	argot -> argot1	
+	pannzer -> pannzer1	
+	input -> fanngo
+	fanngo -> fanngo1
+
+	subgraph agg{
+		node[style=filled fillcolor="#8dd3c7"]
+		aggregate1[label="Combine\nAnnotations"]
+		aggregate2[label="Remove\nDuplciation &\nRedundancy"]
+		aggregate3[label="Aggregate\nAnnotations",shape=folder]
+	}
+
+	
+
+	argot1 -> aggregate1
+	pannzer1 -> aggregate1
+	fanngo1 -> aggregate1
+	iprs1 -> aggregate1
+	arab1 -> aggregate1
+	uniprot1 -> aggregate1
+
+
+    aggregate1 -> aggregate2
+    aggregate2 -> aggregate3
+	{rank = same; fanngo; pannzer; iprs; arab; uniprot;}
+}
+
+
+
+#8dd3c7
+#ffffb3
+#bebada
+#fb8072
+#80b1d3
+#fdb462
+#b3de69
