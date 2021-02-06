@@ -7,14 +7,6 @@ data/clean/maize.PH207.UIUC_UMN-1.0.community.gaf filter=lfs diff=lfs merge=lfs 
 data/clean/maize.W22.AGPv2.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
 data/community/TPC2016-00353-LSBR2-A_Supplemental_Dataset_1.txt filter=lfs diff=lfs merge=lfs -text
 data/community/zmays_refgeb_v4_gramene_go.txt filter=lfs diff=lfs merge=lfs -text
-data/expanded/maize.B73.AGPv3.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
-data/expanded/maize.B73.AGPv3.aggregate.gaf.new filter=lfs diff=lfs merge=lfs -text
-data/expanded/maize.B73.AGPv4.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
-data/expanded/maize.B73.AGPv4.gramene.gaf filter=lfs diff=lfs merge=lfs -text
-data/expanded/maize.Mo17.AGPv1.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
-data/expanded/maize.PH207.UIUC_UMN-1.0.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
-data/expanded/maize.PH207.UIUC_UMN-1.0.community.gaf filter=lfs diff=lfs merge=lfs -text
-data/expanded/maize.W22.AGPv2.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
 data/fasta/filt_fasta/B73v3.fa filter=lfs diff=lfs merge=lfs -text
 data/fasta/filt_fasta/B73v4.fa filter=lfs diff=lfs merge=lfs -text
 data/fasta/filt_fasta/Mo17.fa filter=lfs diff=lfs merge=lfs -text
