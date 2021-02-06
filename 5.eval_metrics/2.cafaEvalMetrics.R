@@ -1,5 +1,5 @@
-source("analysis/R/cafaEval.R")
-source("analysis/R/plotTools.R")
+source("R/cafaEval.R")
+source("R/plotTools.R")
 library("yaml")
 library("data.table")
 library("ggplot2")
@@ -13,7 +13,7 @@ names(totalGenes) <- allMaizeSeqsSummary$inbred
 totalGenes <- c(totalGenes,c("B73v3-Gold"=as.numeric(totalGenes["B73v3"])))
 
 go_obo <- check_obo_data("data/go/go.obo")
-config <- read_yaml("config.yml")
+config <- read_yaml("config.yaml")
 
 predData_list <- lapply(config$predicted,function(x){
   inputGaf <- file.path("data/clean",x$file)
@@ -42,7 +42,7 @@ prData_filt = merge(curUniq,predData_dt)
 
 gafCafaPr <- prData_filt[,getCafaPr(term_accession,inbred,aspect,db_object_symbol,go_obo,curatedData_dt),by=list(source,inbred,aspect,db_object_symbol)]
 gafCafaPr[,source:=factor(source,levels = c("GOMAP","Community"),ordered = T)]
-fwrite(gafCafaPr,file = "data/evaluationMetrics/gafCafaPr.tsv")
+fwrite(gafCafaPr,file = "data/metrics/gafCafaPr.tsv")
 
 gafCafaRc_list <- apply(unique(prData_filt[,.(inbred,source)]),1,function(x){
   pred_data <- prData_filt[inbred==x["inbred"] & source==x["source"]]
@@ -53,7 +53,7 @@ gafCafaRc_list <- apply(unique(prData_filt[,.(inbred,source)]),1,function(x){
 
 gafCafaRc <- rbindlist(gafCafaRc_list)
 gafCafaRc[,source:=factor(source,levels = c("GOMAP","Community"),ordered = T)]
-fwrite(gafCafaRc,file = "data/evaluationMetrics/gafCafaRc.tsv")
+fwrite(gafCafaRc,file = "data/metrics/gafCafaRc.tsv")
 
 sourceColor = c("black","black")
 fillScale = scale_fill_brewer(type="qual",palette = 4)
@@ -117,4 +117,4 @@ fMaxPlot
 out =  lapply(list(pr_plot,rc_plot,fMaxPlot),ggplotGrob)
 g = do.call(rbind,out)
 #plotGrob <- arrangeGrob(g,heights = c(6,1),ncol = 1,padding = unit(2,"line"))
-ggsave("paper/figures/cafaMetrics.png",plot = g,width=7.5,height=6,units = "in")
+ggsave("figures/cafaMetrics.png",plot = g,width=7.5,height=6,units = "in")

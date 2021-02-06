@@ -43,3 +43,4 @@ data/specific/maize.Mo17.AGPv1.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
 data/specific/maize.PH207.UIUC_UMN-1.0.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
 data/specific/maize.PH207.UIUC_UMN-1.0.community.gaf filter=lfs diff=lfs merge=lfs -text
 data/specific/maize.W22.AGPv2.aggregate.gaf filter=lfs diff=lfs merge=lfs -text
+data/metrics/gafSpecificity.tsv filter=lfs diff=lfs merge=lfs -text

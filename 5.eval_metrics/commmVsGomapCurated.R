@@ -1,7 +1,7 @@
-source("analysis/R/plotTools.R")
-source("analysis/R/gafTools.R")
-source("analysis/R/oboTools.R")
-source("analysis/R/goCompTools.R")
+source("R/plotTools.R")
+source("R/gafTools.R")
+source("R/oboTools.R")
+source("R/goCompTools.R")
 library("data.table")
 library("naturalsort")
 library("kableExtra")
@@ -109,9 +109,9 @@ plot(p)
 
 ggsave("figures/gomapVsCommVsCurate.png",plot = p,width = 6,height = 7.5,units = "in",dpi = 300)
 
-?muted
-countTable = dcast.data.table(plotData,inbred+annotClass~aspect+variable,value.var = "count",fill = 0)#[order()]
-cat(colSums(countTable[inbred=="B73v4",-1:-2,with=F]),sep=" & ")
-cat(colSums(countTable[inbred!="B73v4",-1:-2,with=F]),sep=" & ")
 
-kable(countTable,format = "latex",format.args = list(big.mark=","))
+#countTable = dcast.data.table(plotData,inbred+annotClass~aspect+variable,value.var = "count",fill = 0)#[order()]
+#cat(colSums(countTable[inbred=="B73v4",-1:-2,with=F]),sep=" & ")
+#cat(colSums(countTable[inbred!="B73v4",-1:-2,with=F]),sep=" & ")
+
+#kable(countTable,format = "latex",format.args = list(big.mark=","))

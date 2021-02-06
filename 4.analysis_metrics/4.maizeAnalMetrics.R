@@ -9,7 +9,6 @@ library("yaml")
 
 allMaizeSeqs <- fread("data/fasta/filt_fasta/faSeqData.tsv")
 allMaizeSeqsSummary <-  allMaizeSeqs[,list(total=.N),by=inbred][order(inbred)]
-allMaizeSeqsSummary
 totalGenes <- allMaizeSeqsSummary$total
 names(totalGenes) <- allMaizeSeqsSummary$inbred
 
@@ -38,7 +37,7 @@ system.time({
 })
 
 
-#dim(gafData_dt)
+
 fwrite(predData_dt[,.(inbred,source,aspect,db_object_symbol,term_accession,specificity)],file = "data/metrics/gafSpecificity.tsv")
 
 predDataSummary <- predData_dt[,list(annotated=length(unique(db_object_symbol)),numAnnots=.N,meanSpec=round(mean(specificity),2)),by=list(inbred,source)]
@@ -64,18 +63,27 @@ system.time({
   curatedData_dt[,specificity:=unlist(specList[term_accession])]
 })
 
-curatedDataSummary <- curatedData_dt[,list(annotated=length(unique(db_object_symbol)),
-                                          numAnnots=.N,
-                                          meanSpec=round(mean(specificity),2)),
-                                     by=list(inbred)]
+curatedDataSummary <- curatedData_dt[,list(
+  annotated=length(unique(db_object_symbol)),
+  numAnnots=.N,
+  meanSpec=round(mean(specificity),2)),
+  by=list(inbred)]
 curatedDataSummary[,totGenes:=totalGenes[inbred]]
 curatedDataSummary[,coverage:=round(annotated/totalGenes*100,2)]
 curatedDataSummary[,annotsPerGene:=round(numAnnots/annotated,2)]
 
 gafDataSummary <- merge.data.table(predDataSummary,curatedDataSummary,by=c("inbred","totGenes"),suffixes = c(".pred",".curate"))
-colnames(gafDataSummary)
 summaryCols <- c("inbred","source","totGenes",naturalsort(colnames(gafDataSummary)[grep("coverage|annots|meanSpec",colnames(gafDataSummary))]))
-cat(kable(gafDataSummary[,summaryCols,with=F],"markdown",row.names = F,format.args = list(big.mark=","),caption="Geneal Analysis Metrics"),file = "tables/README.md",sep = "\n",append=TRUE)
+cat("\n",
+  kable(
+    gafDataSummary[,summaryCols,with=F],
+    "markdown",
+    row.names = F,
+    format.args = list(big.mark=","),
+    caption="Geneal Analysis Metrics"),
+  file = "tables/README.md",
+  sep = "\n",
+  append=TRUE)
 
 sourceColor = c("black","black")
 fillScale = scale_fill_brewer(type="qual",palette = 4)
@@ -135,5 +143,5 @@ specHistPlot <- ggplot(specHistPlotData, aes(x=inbred)) +
 out =  lapply(list(covPlot,numAnnotPlot,specHistPlot),ggplotGrob)
 g = do.call(rbind,out)
 #plotGrob <- arrangeGrob(g,legends,heights = c(6,1),ncol = 1,padding = unit(2,"line"))
-ggsave("figures/analMetrics.png",plot = g,width=7.5,height=6,units = "in")
+ggsave("figures/analysisMetrics.png",plot = g,width=7.5,height=6,units = "in")
 

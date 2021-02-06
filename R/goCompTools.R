@@ -1,5 +1,5 @@
 library("ontologyIndex")
-library("ontologySimilarity")
+# library("ontologySimilarity")
 library("data.table")
 library("parallel")
 library("ggplot2")
