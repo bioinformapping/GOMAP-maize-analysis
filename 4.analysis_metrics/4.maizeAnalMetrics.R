@@ -26,6 +26,7 @@ predData_list <- lapply(config$predicted,function(x){
 
 predData_dt <- rbindlist(predData_list)
 predData_dt[,source:=factor(source,levels = c("GOMAP","Community"),ordered = T)]
+predData_dt[,inbred:=factor(inbred,levels = c("B73v4","PH207","Mo17","W22","B73v3"))]
 predData_dt[,list(count=.N),by=list(inbred,source)]
 system.time({
   specList = get_specificity(unique(predData_dt$term_accession),go_obo)
@@ -97,7 +98,7 @@ shapeYpos=-0.05
 predCovSummary <- predData_dt[,list(annotated=length(unique(db_object_symbol))),by=list(inbred,source,aspect)]
 predCovSummary[,totGenes:=totalGenes[inbred]]
 predCovSummary[,coverage:=round(annotated/totGenes*100,2)]
-predCovSummary[inbred=="B73v4"]
+# predCovSummary[inbred=="B73v4"]
 
 covPlot <- ggplot(predCovSummary, aes(x=inbred)) +
   geom_bar(mapping = aes(y=coverage,fill=inbred,color=source),stat = "identity",position = pos,size=0) +

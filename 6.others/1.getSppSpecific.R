@@ -1,6 +1,6 @@
-source("analysis/R/gafTools.R")
-source("analysis/R/oboTools.R")
-source("analysis/R/getNonredDataset.R")
+source("R/gafTools.R")
+source("R/oboTools.R")
+source("R/getNonredDataset.R")
 library("data.table")
 library("yaml")
 
@@ -8,7 +8,7 @@ sppSpecTerms <- fread("data/go/speciesSpecificGOTerms.txt")
 plantSpecificGO <- sppSpecTerms[`NCBITaxon:33090`==1]$GOterm
 plantSpecificGO <- c(plantSpecificGO,c("GO:0005575","GO:0008150","GO:0003674"))
 
-config = read_yaml("config.yml")
+config = read_yaml("config.yaml")
 go_obo <- check_obo_data("data/go/go.obo")
 
 getNRterms <- function(go_obo,data){
@@ -17,21 +17,22 @@ getNRterms <- function(go_obo,data){
 }
 
 options(mc.cores = 8)
-
+#x=config$predicted[[1]]
 allGoData_list <- lapply(config$predicted,function(x){
-  x = config$predicted[1]
-  inputGaf <- file.path("data","expanded",x)
+  inputGaf <- file.path("data","expanded",x["file"])
   cat("Processing input file: ",inputGaf,'\n')
   input_gaf_data <- read_gaf(inputGaf)
-  spp_gaf_data = input_gaf_data[term_accession %in% plantSpecificGO]
+  tmp_dt = data.table(plantSpecificGO)
+  colnames(tmp_dt) = "term_accession"
+  spp_gaf_data = merge.data.table(tmp_dt,input_gaf_data)
   spp_list <- split(spp_gaf_data[,.(db_object_symbol,aspect,term_accession)],by=c("db_object_symbol","aspect"),keep.by = T)
   spp_mininal_list <- mclapply(spp_list,getNRterms,go_obo=go_obo)  
   spp_mininal_dt <- rbindlist(spp_mininal_list)
   output_gaf_data <- merge.data.table(spp_gaf_data,spp_mininal_dt,no.dups = T)
-  dim(output_gaf_data)
   today=format(Sys.Date(),"%Y%m%d")
   output_gaf_data[,date:=as.numeric(today)]
-  outputGaf = file.path("data","specific",x)
+  outputGaf = file.path("data","plant-specific",x["file"])
+  setcolorder(output_gaf_data,gaf_cols)
   write_gaf(output_gaf_data,outputGaf)
   input_gaf_data
 })

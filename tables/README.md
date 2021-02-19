@@ -42,3 +42,17 @@ Table: Geneal Analysis Metrics
 |PH207  |GOMAP     |   40,557|                 1.26|              11.48|            3.34|        100.00|           12.05|         10.67|
 |PH207  |Community |   40,557|                 1.26|               2.21|            3.34|         45.44|           12.05|         11.30|
 |W22    |GOMAP     |   40,690|                 1.24|              11.58|            3.08|        100.00|           12.09|         10.78|
+
+
+Table: Geneal Analysis Metrics
+
+|inbred |source | totGenes| annotsPerGene.curate| annotsPerGene.pred| coverage.curate| coverage.pred| meanSpec.curate| meanSpec.pred|
+|:------|:------|--------:|--------------------:|------------------:|---------------:|-------------:|---------------:|-------------:|
+|Mo17   |GOMAP  |   38,620|                 1.26|              11.53|            3.42|           100|           11.99|         10.85|
+
+
+Table: Geneal Analysis Metrics
+
+|inbred |source | totGenes| annotsPerGene.curate| annotsPerGene.pred| coverage.curate| coverage.pred| meanSpec.curate| meanSpec.pred|
+|:------|:------|--------:|--------------------:|------------------:|---------------:|-------------:|---------------:|-------------:|
+|Mo17   |GOMAP  |   38,620|                 1.26|              11.53|            3.42|           100|           11.99|         10.85|

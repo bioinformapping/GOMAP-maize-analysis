@@ -42,6 +42,7 @@ prData_filt = merge(curUniq,predData_dt)
 
 gafCafaPr <- prData_filt[,getCafaPr(term_accession,inbred,aspect,db_object_symbol,go_obo,curatedData_dt),by=list(source,inbred,aspect,db_object_symbol)]
 gafCafaPr[,source:=factor(source,levels = c("GOMAP","Community"),ordered = T)]
+gafCafaPr[,inbred:=factor(inbred,levels = c("B73v4","PH207","Mo17","W22","B73v3"))]
 fwrite(gafCafaPr,file = "data/metrics/gafCafaPr.tsv")
 
 gafCafaRc_list <- apply(unique(prData_filt[,.(inbred,source)]),1,function(x){
@@ -53,6 +54,7 @@ gafCafaRc_list <- apply(unique(prData_filt[,.(inbred,source)]),1,function(x){
 
 gafCafaRc <- rbindlist(gafCafaRc_list)
 gafCafaRc[,source:=factor(source,levels = c("GOMAP","Community"),ordered = T)]
+gafCafaRc[,inbred:=factor(inbred,levels = c("B73v4","PH207","Mo17","W22","B73v3"))]
 fwrite(gafCafaRc,file = "data/metrics/gafCafaRc.tsv")
 
 sourceColor = c("black","black")
@@ -66,10 +68,10 @@ shapeYpos=-0.05
 curGeneCount <- curatedData_dt[,list(curCount=length(unique(db_object_symbol))),by=list(inbred,aspect)]
 
 pr_plotData <- gafCafaPr[,list(avg=mean(pr),
-                                    lower=t.test(pr)$`conf.int`[1],
-                                    upper=t.test(pr)$`conf.int`[2],
-                                    count=length(unique(db_object_symbol))),
-                              by=list(inbred,aspect,source)]
+                               lower=t.test(pr)$`conf.int`[1],
+                               upper=t.test(pr)$`conf.int`[2],
+                               count=length(unique(db_object_symbol))),
+                         by=list(inbred,aspect,source)]
 
 pr_plot <- ggplot(pr_plotData,aes(x=inbred,fill=inbred)) + 
   geom_bar(aes(y=avg,color=source),stat = "identity",position = pos,size=0) +
@@ -82,10 +84,10 @@ pr_plot <- ggplot(pr_plotData,aes(x=inbred,fill=inbred)) +
   labs(y="Precision",fill="Annotation Type")
 
 rc_plotData <- gafCafaRc[,list(avg=mean(rc),
-                                    lower=t.test(rc)$`conf.int`[1],
-                                    upper=t.test(rc)$`conf.int`[2],
-                                    count=sum(num_gold>0)),
-                              by=list(inbred,aspect,source)]
+                               lower=t.test(rc)$`conf.int`[1],
+                               upper=t.test(rc)$`conf.int`[2],
+                               count=sum(num_gold>0)),
+                         by=list(inbred,aspect,source)]
 
 rc_plot <- ggplot(rc_plotData,aes(x=inbred,fill=inbred)) + 
   geom_bar(aes(y=avg,color=source),stat = "identity",position = pos,size=0) +
