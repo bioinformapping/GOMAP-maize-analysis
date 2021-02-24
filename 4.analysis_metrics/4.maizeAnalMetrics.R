@@ -76,15 +76,15 @@ curatedDataSummary[,annotsPerGene:=round(numAnnots/annotated,2)]
 gafDataSummary <- merge.data.table(predDataSummary,curatedDataSummary,by=c("inbred","totGenes"),suffixes = c(".pred",".curate"))
 summaryCols <- c("inbred","source","totGenes",naturalsort(colnames(gafDataSummary)[grep("coverage|annots|meanSpec",colnames(gafDataSummary))]))
 cat("\n",
-  kable(
-    gafDataSummary[,summaryCols,with=F],
-    "markdown",
-    row.names = F,
-    format.args = list(big.mark=","),
-    caption="Geneal Analysis Metrics"),
-  file = "tables/README.md",
-  sep = "\n",
-  append=TRUE)
+    kable(
+      gafDataSummary[,summaryCols,with=F],
+      "markdown",
+      row.names = F,
+      format.args = list(big.mark=","),
+      caption="Geneal Analysis Metrics"),
+    file = "tables/README.md",
+    sep = "\n",
+    append=TRUE)
 
 sourceColor = c("black","black")
 fillScale = scale_fill_brewer(type="qual",palette = 4)

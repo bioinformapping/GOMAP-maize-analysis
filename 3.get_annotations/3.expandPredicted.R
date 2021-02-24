@@ -6,18 +6,8 @@ library("yaml")
 config = read_yaml("config.yaml")
 go_obo <- check_obo_data("data/go/go.obo")
 
-getAllGo <- function(go_obo,x){
-  allGo = go_obo$ancestors[[x]]
-  if(!is.null(allGo)){
-    allGo = allGo
-  }else{
-    allGo = x
-  }
-  allGo
-}
 
-
-predData_list <- lapply(config$predicted,function(x){
+predData_list <- lapply(config$predicted[1],function(x){
   print(x["inbred"])
   inputGaf = file.path("data","clean",x$file)
   input_gaf_data <- read_gaf(inputGaf)
@@ -27,7 +17,7 @@ predData_list <- lapply(config$predicted,function(x){
   input_gaf_data[,db_object_synonym:=""]
   unique_terms = unique(input_gaf_data[,.(aspect,term_accession)])
   all_terms = unique_terms[,list(all_term_accession=unique(go_obo$ancestors[[term_accession]])),by=list(aspect,term_accession)]
-  expand_gaf_data = unique(merge.data.table(input_gaf_data,all_terms,allow.cartesian = T,all.x = T))
+  expand_gaf_data = unique(merge.data.table(all_terms,input_gaf_data,by=c("aspect","term_accession"),allow.cartesian = T,all.x = T))
   expand_gaf_data[is.na(all_term_accession),all_term_accession:=term_accession]
   output_gaf_data = unique(expand_gaf_data[,-c("term_accession"),with=F])
   colnames(output_gaf_data)[colnames(output_gaf_data)=="all_term_accession"] = "term_accession"

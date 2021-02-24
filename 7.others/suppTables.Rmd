@@ -1,0 +1,83 @@
+---
+title: "GOMAP Supplemental Data"
+author: "Kokulapalan Wimalanathan"
+date: "2/23/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+library("knitr")
+library("yaml")
+library("kableExtra")
+knitr::opts_chunk$set(echo = TRUE)
+source("../R/gafTools.R")
+source("../R/oboTools.R")
+go_obo <- check_obo_data("../data/go/go.obo")
+```
+
+## Supplemental Tables
+
+Table ST1: Location of input fasta files for the maize lines
+
+| Inbred Line | Link                                                                                               |
+| ----------- | -------------------------------------------------------------------------------------------------- |
+| B73v4       | ftp://ftp.ensemblgenomes.org/pub/plants/release-32/fasta/zea_mays/pep/Zea_mays.AGPv4.pep.all.fa.gz |
+| B73v3       | https://ftp.maizegdb.orgGDB/FTP/B73_RefGen_v3/Zea_mays.AGPv3.22.pep.all.fa.gz                      |
+| Mo17        | https://ftp.maizegdb.orgGDB/FTP/Zm-Mo17-REFERENCE-CAU-1.0/Zm00014a.proteins.fa.gz                  |
+| PH207       | https://ftp.maizegdb.orgGDB/FTP/Zm-PH207-REFERENCE_NS-UIUC_UMN-1.0/Zm00008a.protein.fa.gz          |
+| W22         | https://ftp.maizegdb.orgGDB/FTP/Zm-W22-REFERENCE-NRGENE-2.0/Zm00004b.protein.fa.gz                 |
+
+
+Table ST2: Comparison of GOMAP Annotations and Plant-Specific Subset
+
+```{r read_annots, echo=FALSE, message=FALSE, warning=FALSE}
+config <- read_yaml("../config.yaml")
+
+allAnnots_list <- lapply(config$predicted,function(x){
+  inputGaf <- file.path("../data/clean/",x$file)
+  inbred = x$inbred
+  suppressMessages({
+    input_gaf_data <- read_gaf(inputGaf)
+  })
+  out_dt = input_gaf_data[,list(term_count=.N),by=list(aspect)]
+  out_dt[,inbred:=x$inbred]
+  out_dt[,source:=x$source]
+  out_dt[,type:="all"]
+  out_dt
+})
+
+
+allAnnots_dt = rbindlist(allAnnots_list)
+
+plantAnnots_list <- lapply(config$predicted,function(x){
+  inputGaf <- file.path("../data/plant-specific/",x$file)
+  inbred = x$inbred
+  suppressMessages({
+    input_gaf_data <- read_gaf(inputGaf)
+  })
+  out_dt = input_gaf_data[,list(term_count=.N),by=list(aspect)]
+  out_dt[,inbred:=x$inbred]
+  out_dt[,source:=x$source]
+  out_dt[,type:="plant"]
+  out_dt
+})
+
+
+plantAnnots_dt = rbindlist(plantAnnots_list)
+
+all_plant_annots = rbindlist(list(allAnnots_dt,plantAnnots_dt))
+
+outTable = dcast(all_plant_annots,inbred+source~aspect+type,value.var = "term_count")
+
+colnames(outTable)[3:8] = rep(c("All","Plant-specific"),3) 
+
+kbl(outTable,format.args = list(big.mark=",")) %>%
+  kable_classic() %>%
+  add_header_above(c("","","Cellular Component"=2,"Molecular Function"=2,"Biologial Process"=2))
+
+
+
+```

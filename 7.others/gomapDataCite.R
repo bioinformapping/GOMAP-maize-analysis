@@ -1,8 +1,32 @@
-source("R/gafTools.R")
-source("R/oboTools.R")
-source("R/getNonredDataset.R")
 library("data.table")
-library("yaml")
+library("bib2df")
+
+
+dataset_dt = fread("data/citations/gomap_datasets.tsv",sep = "\t",header = T)
+dataset_bib = data.table(bib2df("data/citations/gomap_datasets.bib"))
+
+dataset_dt[,c("first","last"):=tstrsplit(Person," ")]
+
+dataset_dt[,author:=paste0(last,",",first)]
+paste0(dataset_dt$last,"_",dataset_dt$Rel,"_",gsub(" +","_",dataset_dt$Line))
+
+author_list = lapply(dataset_dt$author, function(x){
+  c(x,"Larence-Dill, Carolyn")
+})
+dataset_bib$AUTHOR = author_list
+dataset_bib$doi = dataset_dt$DOI
+dataset_bib$URL = paste0("http://dx.doi.org/",dataset_dt$DOI)
+#dataset_bib$YEAR = gsub("},","",dataset_bib$YEAR,fixed = T)
+
+dataset_bib$ABSTRACT = gsub("_","\\_",dataset_bib$NOTE,fixed=T)
+dataset_bib$TITLE = gsub("_","\\_",dataset_bib$TITLE,fixed=T)
+dataset_bib$BIBTEXKEY = paste0(dataset_dt$last,"_",dataset_dt$Rel,"_",gsub(" +","_",dataset_dt$Line))
+
+dataset_bib[1]
+bib2df::df2bib(dataset_bib[,-c("NOTE"),with=F],"data/citations/test.bib")
+
+
+test_bib = bib2df("data/citations/gomap_datasets.bib")
 
 sppSpecTerms <- fread("data/go/speciesSpecificGOTerms.txt")
 plantSpecificGO <- sppSpecTerms[`NCBITaxon:33090`==1]$GOterm

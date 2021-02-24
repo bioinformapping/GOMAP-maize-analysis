@@ -31,28 +31,3 @@ Table: Geneal Analysis Metrics
 |W22    |GOMAP     |   40,690|                 1.24|              11.58|            3.08|        100.00|           12.09|         10.78|
 
 
-Table: Geneal Analysis Metrics
-
-|inbred |source    | totGenes| annotsPerGene.curate| annotsPerGene.pred| coverage.curate| coverage.pred| meanSpec.curate| meanSpec.pred|
-|:------|:---------|--------:|--------------------:|------------------:|---------------:|-------------:|---------------:|-------------:|
-|B73v3  |GOMAP     |   39,475|                 1.23|              13.05|            4.10|         99.98|           11.97|         10.56|
-|B73v4  |GOMAP     |   39,324|                 1.26|              11.46|            3.54|        100.00|           11.99|         10.85|
-|B73v4  |Community |   39,324|                 1.26|               4.31|            3.54|         76.94|           11.99|         13.00|
-|Mo17   |GOMAP     |   38,620|                 1.26|              11.53|            3.42|        100.00|           11.99|         10.85|
-|PH207  |GOMAP     |   40,557|                 1.26|              11.48|            3.34|        100.00|           12.05|         10.67|
-|PH207  |Community |   40,557|                 1.26|               2.21|            3.34|         45.44|           12.05|         11.30|
-|W22    |GOMAP     |   40,690|                 1.24|              11.58|            3.08|        100.00|           12.09|         10.78|
-
-
-Table: Geneal Analysis Metrics
-
-|inbred |source | totGenes| annotsPerGene.curate| annotsPerGene.pred| coverage.curate| coverage.pred| meanSpec.curate| meanSpec.pred|
-|:------|:------|--------:|--------------------:|------------------:|---------------:|-------------:|---------------:|-------------:|
-|Mo17   |GOMAP  |   38,620|                 1.26|              11.53|            3.42|           100|           11.99|         10.85|
-
-
-Table: Geneal Analysis Metrics
-
-|inbred |source | totGenes| annotsPerGene.curate| annotsPerGene.pred| coverage.curate| coverage.pred| meanSpec.curate| meanSpec.pred|
-|:------|:------|--------:|--------------------:|------------------:|---------------:|-------------:|---------------:|-------------:|
-|Mo17   |GOMAP  |   38,620|                 1.26|              11.53|            3.42|           100|           11.99|         10.85|
