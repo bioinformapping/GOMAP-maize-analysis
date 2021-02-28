@@ -6,6 +6,8 @@ The scripts are mainly written in [R](https://www.r-project.org/) with one scrip
 
 The analysis is separated into 7 different categories in the order of the appearance of the figures and tables in the manuscript 
 
+## Script Categories
+
 1. SRA
 	The code to download the SRA data and create the SRA dataset plot numbers
 2. Walltime
@@ -21,3 +23,6 @@ The analysis is separated into 7 different categories in the order of the appear
 7. Others
 	The scripts that were used to generate any other tables, figures, and citations
 
+## Obtaining Plant-specific Annotations from All GOMAP Annotations
+
+This functionality is provided via R scripts that have been containerized using singularity and the instructions are available at [GOMAP-PlantSpecific](https://github.com/bioinformapping/GOMAP-PlantSpecific).
